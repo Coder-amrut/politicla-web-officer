@@ -3,12 +3,12 @@ import { Compass } from 'lucide-react';
 
 export default function HierarchyTab({ isMr }) {
   const hierarchyLevels = [
-    { level: 1, name_mr: 'राज्य (State)', name_en: 'State', value_mr: 'महाराष्ट्र (Maharashtra)', code: 'MH-27', icon: '🏛️', desc_mr: 'राज्यस्तरीय निवडणूक क्षेत्र' },
-    { level: 2, name_mr: 'जिल्हा (District)', name_en: 'District', value_mr: 'सांगली (Sangli)', code: 'DIST-31', icon: '🏢', desc_mr: 'जिल्हा परिषद व मुख्यालय क्षेत्र' },
-    { level: 3, name_mr: 'विधानसभा (Assembly)', name_en: 'Assembly', value_mr: '२८२ सांगली विधानसभा मतदारसंघ', code: 'AC-282', icon: '🗳️', desc_mr: 'विधानसभा निवडणूक कार्यक्षेत्र' },
-    { level: 4, name_mr: 'तालुका / प्रभाग (Taluka / Ward)', name_en: 'Taluka / Ward', value_mr: 'मिरज तालुका / प्रभाग क्रमांक १२', code: 'TAL-MIRAJ', icon: '📍', desc_mr: 'स्थानिक स्वराज्य संस्था प्रभाग' },
-    { level: 5, name_mr: 'गाव / शहर परिसर (Village / Area)', name_en: 'Village / Area', value_mr: 'सांगली शहर मध्य / वॉर्ड परिसर', code: 'VIL-SANGLI', icon: '🏘️', desc_mr: 'नागरी वस्ती व लोकवस्ती कार्यक्षेत्र' },
-    { level: 6, name_mr: 'बूथ / भाग (Booth / Part)', name_en: 'Booth / Part', value_mr: 'बूथ क्र. १ ते १४ (प्राथमिक शाळा केंद्र)', code: 'BOOTH-12/1', icon: '🎯', desc_mr: 'अधिकाऱ्याचे प्रत्यक्ष नियुक्त मतदान केंद्र' },
+    { level: 1, name_mr: 'राज्य', name_en: 'State', value_mr: 'महाराष्ट्र', value_en: 'Maharashtra', code: 'MH-27', icon: '🏛️', desc_mr: 'राज्यस्तरीय निवडणूक क्षेत्र', desc_en: 'State Level Electoral Area' },
+    { level: 2, name_mr: 'जिल्हा', name_en: 'District', value_mr: 'सांगली', value_en: 'Sangli', code: 'DIST-31', icon: '🏢', desc_mr: 'जिल्हा परिषद व मुख्यालय क्षेत्र', desc_en: 'District Council & HQ Area' },
+    { level: 3, name_mr: 'विधानसभा', name_en: 'Assembly', value_mr: '२८२ सांगली विधानसभा मतदारसंघ', value_en: '282 Sangli Assembly Constituency', code: 'AC-282', icon: '🗳️', desc_mr: 'विधानसभा निवडणूक कार्यक्षेत्र', desc_en: 'Assembly Constituency Field Area' },
+    { level: 4, name_mr: 'तालुका / प्रभाग', name_en: 'Taluka / Ward', value_mr: 'मिरज तालुका / प्रभाग क्रमांक १२', value_en: 'Miraj Taluka / Ward No. 12', code: 'TAL-MIRAJ', icon: '📍', desc_mr: 'स्थानिक स्वराज्य संस्था प्रभाग', desc_en: 'Local Municipal Ward Division' },
+    { level: 5, name_mr: 'गाव / शहर परिसर', name_en: 'Village / Area', value_mr: 'सांगली शहर मध्य / वॉर्ड परिसर', value_en: 'Sangli City Central Area', code: 'VIL-SANGLI', icon: '🏘️', desc_mr: 'नागरी वस्ती व लोकवस्ती कार्यक्षेत्र', desc_en: 'Urban & Population Area' },
+    { level: 6, name_mr: 'बूथ / भाग', name_en: 'Booth / Part', value_mr: 'बूथ क्र. १ ते १४', value_en: 'Booth No. 1 to 14', code: 'BOOTH-12/1', icon: '🎯', desc_mr: 'अधिकाऱ्याचे प्रत्यक्ष नियुक्त मतदान केंद्र', desc_en: 'Officer Assigned Polling Center' },
   ];
 
   return (
@@ -18,11 +18,11 @@ export default function HierarchyTab({ isMr }) {
         <div>
           <h1 className="page-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Compass size={28} color="#0f766e" />
-            <span>{isMr ? '६-स्तरीय क्षेत्ररचना दर्शक (Geographic Hierarchy)' : '6-Level Geography Hierarchy'}</span>
+            <span>{isMr ? '६-स्तरीय क्षेत्ररचना दर्शक' : '6-Level Geography Hierarchy'}</span>
           </h1>
           <div className="page-subtitle">
             {isMr
-              ? 'राज्य ➔ जिल्हा ➔ विधानसभा ➔ तालुका ➔ गाव ➔ बूथ/भाग अशी संपूर्ण ६-स्तरीय प्रशासकीय क्षेत्ररचना.'
+              ? 'राज्य ➔ जिल्हा ➔ विधानसभा ➔ तालुका ➔ गाव ➔ बूथ अशी संपूर्ण ६-स्तरीय प्रशासकीय क्षेत्ररचना.'
               : 'Full 6-level geographic structure: State -> District -> Assembly -> Taluka -> Village -> Booth.'}
           </div>
         </div>
@@ -40,20 +40,20 @@ export default function HierarchyTab({ isMr }) {
         gap: '12px'
       }}>
         <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.6px', color: '#93c5fd', fontWeight: 800 }}>
-          🇮🇳 {isMr ? 'तुमची नियुक्त क्षेत्र शृंखला (Assigned Hierarchy Chain)' : 'Your Assigned Hierarchy Chain'}
+          🇮🇳 {isMr ? 'तुमची नियुक्त क्षेत्र शृंखला' : 'Your Assigned Hierarchy Chain'}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px', fontSize: '13px', fontWeight: 700 }}>
-          <span style={{ background: 'rgba(255,255,255,0.15)', padding: '4px 10px', borderRadius: '6px' }}>महाराष्ट्र (राज्य)</span>
+          <span style={{ background: 'rgba(255,255,255,0.15)', padding: '4px 10px', borderRadius: '6px' }}>{isMr ? 'महाराष्ट्र' : 'Maharashtra'}</span>
           <span style={{ color: '#FF9933' }}>➔</span>
-          <span style={{ background: 'rgba(255,255,255,0.15)', padding: '4px 10px', borderRadius: '6px' }}>सांगली (जिल्हा)</span>
+          <span style={{ background: 'rgba(255,255,255,0.15)', padding: '4px 10px', borderRadius: '6px' }}>{isMr ? 'सांगली' : 'Sangli'}</span>
           <span style={{ color: '#FF9933' }}>➔</span>
-          <span style={{ background: 'rgba(255,255,255,0.15)', padding: '4px 10px', borderRadius: '6px' }}>२८२ सांगली (विधानसभा)</span>
+          <span style={{ background: 'rgba(255,255,255,0.15)', padding: '4px 10px', borderRadius: '6px' }}>{isMr ? '२८२ सांगली विधानसभा' : '282 Sangli AC'}</span>
           <span style={{ color: '#FF9933' }}>➔</span>
-          <span style={{ background: 'rgba(255,255,255,0.15)', padding: '4px 10px', borderRadius: '6px' }}>मिरज / प्रभाग १२</span>
+          <span style={{ background: 'rgba(255,255,255,0.15)', padding: '4px 10px', borderRadius: '6px' }}>{isMr ? 'मिरज प्रभाग १२' : 'Miraj Ward 12'}</span>
           <span style={{ color: '#FF9933' }}>➔</span>
-          <span style={{ background: 'rgba(255,255,255,0.15)', padding: '4px 10px', borderRadius: '6px' }}>सांगली शहर</span>
+          <span style={{ background: 'rgba(255,255,255,0.15)', padding: '4px 10px', borderRadius: '6px' }}>{isMr ? 'सांगली शहर' : 'Sangli City'}</span>
           <span style={{ color: '#10b981' }}>➔</span>
-          <span style={{ background: '#10b981', color: '#ffffff', padding: '4px 12px', borderRadius: '6px', boxShadow: '0 2px 6px rgba(16,185,129,0.3)' }}>बूथ क्र. १ ते १४ (नियुक्त)</span>
+          <span style={{ background: '#10b981', color: '#ffffff', padding: '4px 12px', borderRadius: '6px', boxShadow: '0 2px 6px rgba(16,185,129,0.3)' }}>{isMr ? 'बूथ क्र. १ ते १४ (नियुक्त)' : 'Booth 1 to 14 (Assigned)'}</span>
         </div>
       </div>
 
@@ -97,11 +97,11 @@ export default function HierarchyTab({ isMr }) {
 
             <div>
               <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 700 }}>{isMr ? lvl.name_mr : lvl.name_en}</div>
-              <div style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', marginTop: '2px' }}>{lvl.value_mr}</div>
+              <div style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', marginTop: '2px' }}>{isMr ? lvl.value_mr : lvl.value_en}</div>
             </div>
 
             <div style={{ fontSize: '12px', color: '#64748b', lineHeight: 1.4, paddingTop: '8px', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
-              {lvl.desc_mr}
+              {isMr ? lvl.desc_mr : lvl.desc_en}
             </div>
 
             {lvl.level === 6 && (
