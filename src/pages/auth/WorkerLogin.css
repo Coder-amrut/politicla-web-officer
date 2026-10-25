@@ -1,0 +1,1232 @@
+/* ==========================================================================
+   OFFICER PORTAL AUTHENTICATION (LOGIN, REGISTER, OTP)
+   Pixel-perfect design matching CareerHub / Officer Portal mobile specifications
+   ========================================================================== */
+
+.officer-auth-container {
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
+  width: 100%;
+  background: #061529;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  font-family: 'Inter', 'Noto Sans Devanagari', 'Mukta', sans-serif;
+  color: #1e293b;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle background stars/dots for ambient depth */
+.officer-auth-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 400px;
+  background-image: 
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+    radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.12) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 25% 45%, rgba(255, 255, 255, 0.1) 1.2px, transparent 1.2px),
+    radial-gradient(circle at 75% 40%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 180px 180px;
+  pointer-events: none;
+}
+
+/* Screen Wrapper - Max Width for Mobile App Feel */
+.officer-phone-frame {
+  width: 100%;
+  max-width: 440px;
+  height: 100%;
+  height: 100dvh;
+  background: linear-gradient(180deg, #071e3b 0%, #0c2b54 220px, #ffffff 220px, #ffffff 100%);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.officer-phone-frame::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 480px) {
+  .officer-auth-container {
+    padding: 16px;
+    align-items: center;
+    overflow-y: auto;
+  }
+  .officer-phone-frame {
+    height: auto;
+    min-height: 560px;
+    max-height: 94vh;
+    border-radius: 36px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* App Header */
+.officer-app-header {
+  padding: 18px 20px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 5;
+}
+
+.officer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.officer-logo-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff7e2a 0%, #ff5200 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(255, 82, 0, 0.35);
+  flex-shrink: 0;
+}
+
+.officer-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.officer-brand-title {
+  color: #ffffff;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  line-height: 1.15;
+}
+
+.officer-brand-subtitle {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+
+/* Language Dropdown Selector */
+.officer-lang-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  backdrop-filter: blur(4px);
+  transition: all 0.2s;
+}
+
+.officer-lang-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* Hero Section */
+.officer-hero-section {
+  padding: 14px 22px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+  z-index: 4;
+}
+
+.officer-hero-text {
+  flex: 1;
+}
+
+.officer-hero-title {
+  color: #ffffff;
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.4px;
+}
+
+.officer-hero-title .highlight-orange {
+  color: #ff6a00;
+  background: linear-gradient(90deg, #ff7e2a 0%, #ff5200 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.officer-hero-subtitle {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 13.5px;
+  margin: 6px 0 0;
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+/* Hero Circular Illustrations with Orbital Accents */
+.officer-hero-graphic {
+  width: 90px;
+  height: 90px;
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.officer-hero-graphic::before {
+  content: '';
+  position: absolute;
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+  pointer-events: none;
+}
+
+.officer-avatar-ring {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #1d4b82 0%, #0c274c 80%);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.officer-avatar-silhouette {
+  color: #ffffff;
+  opacity: 0.95;
+}
+
+.officer-badge-lock {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff7e2a 0%, #ff5200 100%);
+  border: 2.5px solid #0c274c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(255, 82, 0, 0.4);
+}
+
+.officer-hero-section-alt {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  padding: 10px 20px 14px;
+}
+
+.officer-hero-section-alt .officer-hero-title {
+  font-size: 21px;
+  line-height: 1.15;
+}
+
+.officer-hero-section-alt .officer-hero-subtitle {
+  font-size: 11.5px;
+  margin: 3px 0 0;
+  line-height: 1.35;
+}
+
+.officer-hero-graphic-register-left,
+.officer-hero-graphic-otp-left {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #1d4b82 0%, #0c274c 85%);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+}
+
+/* White Form Card */
+.officer-card-container {
+  background: #ffffff;
+  border-radius: 30px 30px 0 0;
+  padding: 22px 22px 0;
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Card Header / Intro inside Card */
+.officer-card-header {
+  margin-bottom: 14px;
+}
+
+.officer-card-header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #15803d;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.officer-card-header .officer-card-subtitle {
+  color: #64748b;
+  font-size: 12.5px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* ================= BALANCED STYLING FOR LOGIN (PERFECTLY UTILIZES CARD SPACE) ================= */
+.officer-login-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.officer-login-fields {
+  display: flex;
+  flex-direction: column;
+}
+
+.officer-login-form .officer-form-group {
+  margin-bottom: 14px;
+}
+
+.officer-login-form .officer-form-label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1e293b;
+}
+
+.officer-login-form .officer-input-wrapper {
+  height: 46px;
+}
+
+.officer-login-form .officer-input {
+  padding: 11px 14px 11px 42px;
+  height: 46px;
+  font-size: 14px;
+  border-radius: 12px;
+}
+
+.officer-login-form .officer-pass-row {
+  margin-top: 0px;
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+
+.officer-login-actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.officer-login-form .officer-submit-btn {
+  height: 48px;
+  padding: 12px 18px;
+  border-radius: 14px;
+  font-size: 15.5px;
+  margin-top: 0px;
+}
+
+.officer-login-form .officer-divider {
+  margin: 14px 0 12px;
+  font-size: 12.5px;
+}
+
+.officer-login-form .officer-google-btn {
+  height: 44px;
+  padding: 10px 16px;
+  border-radius: 14px;
+  font-size: 14px;
+}
+
+.officer-login-form .officer-switch-footer {
+  margin-top: 14px;
+  margin-bottom: 14px;
+  font-size: 13.5px;
+}
+
+/* ================= BALANCED STYLING FOR CREATE ACCOUNT (PERFECTLY UTILIZES CARD SPACE) ================= */
+.officer-register-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.officer-register-form .officer-form-group {
+  margin-bottom: 12px;
+}
+
+.officer-register-form .officer-form-label {
+  font-size: 12.5px;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.officer-register-form .officer-input-wrapper {
+  height: 42px;
+}
+
+.officer-register-form .officer-input {
+  padding: 10px 14px 10px 40px;
+  height: 42px;
+  font-size: 13.5px;
+  border-radius: 12px;
+}
+
+.officer-register-form .officer-input-icon {
+  left: 13px;
+}
+
+.officer-register-form .officer-input-eye-btn {
+  right: 12px;
+}
+
+.officer-register-form .officer-submit-btn {
+  padding: 12px 18px;
+  font-size: 15px;
+  height: 45px;
+  border-radius: 13px;
+  margin-top: 6px;
+}
+
+.officer-register-form .officer-divider {
+  margin: 12px 0 10px;
+  font-size: 12px;
+}
+
+.officer-register-form .officer-google-btn {
+  padding: 10px 16px;
+  font-size: 13.5px;
+  height: 42px;
+  border-radius: 13px;
+}
+
+.officer-register-form .officer-switch-footer {
+  margin-top: 14px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+/* Segmented Top Switcher (Email/Mobile vs Google) */
+.officer-card-tab-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.officer-card-tab-btn {
+  flex: 1;
+  padding: 11px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1.5px solid transparent;
+}
+
+.officer-card-tab-btn.active {
+  background: #091e3a;
+  color: #ffffff;
+  border-color: #091e3a;
+  box-shadow: 0 4px 12px rgba(9, 30, 58, 0.25);
+}
+
+.officer-card-tab-btn.inactive {
+  background: #ffffff;
+  color: #334155;
+  border-color: #e2e8f0;
+}
+
+.officer-card-tab-btn.inactive:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+/* Form Groups & Inputs */
+.officer-form-group {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.officer-form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 7px;
+}
+
+.officer-form-label .required-star {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+.officer-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.officer-input-icon {
+  position: absolute;
+  left: 14px;
+  color: #94a3b8;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.officer-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px 12px 42px;
+  border-radius: 12px;
+  border: 1.5px solid #e2e8f0;
+  background: #ffffff;
+  font-size: 14px;
+  color: #1e293b;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.officer-input::placeholder {
+  color: #94a3b8;
+  font-size: 13.5px;
+}
+
+.officer-input:focus {
+  border-color: #ff6a00;
+  box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.12);
+}
+
+.officer-input-eye-btn {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s;
+}
+
+.officer-input-eye-btn:hover {
+  color: #475569;
+}
+
+/* Password Row (Remember Me + Forgot Password) */
+.officer-pass-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: -4px;
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+
+.officer-remember-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #475569;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+}
+
+.officer-remember-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #ff6a00;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.officer-forgot-link {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.officer-forgot-link:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+/* Primary Orange Action Button */
+.officer-submit-btn {
+  width: 100%;
+  padding: 13.5px 18px;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #ff6b18 0%, #ff5200 100%);
+  color: #ffffff;
+  border: none;
+  font-size: 15.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 6px 18px rgba(255, 82, 0, 0.35);
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+}
+
+.officer-submit-btn:hover:not(:disabled) {
+  box-shadow: 0 8px 22px rgba(255, 82, 0, 0.45);
+  transform: translateY(-1px);
+}
+
+.officer-submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.officer-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Divider Line with 'किंवा' */
+.officer-divider {
+  display: flex;
+  align-items: center;
+  margin: 18px 0 16px;
+  color: #94a3b8;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.officer-divider::before,
+.officer-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.officer-divider span {
+  padding: 0 12px;
+}
+
+/* Google Sign-in Button */
+.officer-google-btn {
+  width: 100%;
+  padding: 11px 16px;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #334155;
+  border: 1.5px solid #e2e8f0;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+
+.officer-google-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+/* Footer Link */
+.officer-switch-footer {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 13.5px;
+  color: #64748b;
+}
+
+.officer-switch-link {
+  color: #ff5200;
+  font-weight: 700;
+  background: none;
+  border: none;
+  padding: 0 4px;
+  cursor: pointer;
+  font-size: inherit;
+  transition: all 0.15s;
+}
+
+.officer-switch-link:hover {
+  text-decoration: underline;
+  color: #e04800;
+}
+
+/* ==========================================================================
+   OTP SCREEN SPECIALIZED COMPONENTS
+   ========================================================================== */
+
+/* Phone Header Pill */
+.officer-otp-phone-card {
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+  padding: 11px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.officer-otp-phone-num {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #1e3a8a;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.officer-otp-change-btn {
+  background: transparent;
+  border: none;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0;
+}
+
+.officer-otp-change-btn:hover {
+  text-decoration: underline;
+}
+
+/* 6 OTP Input Boxes */
+.officer-otp-boxes-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.officer-otp-box {
+  width: 100%;
+  aspect-ratio: 1 / 1.15;
+  border-radius: 10px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.15s;
+  padding: 0;
+}
+
+.officer-otp-box:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  background: #fafcff;
+}
+
+/* Resend Timer Card */
+.officer-resend-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 20px;
+  margin-bottom: 12px;
+}
+
+.officer-resend-icon {
+  color: #475569;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.officer-resend-content {
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #334155;
+}
+
+.officer-resend-action-btn {
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.officer-resend-action-btn:disabled {
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.officer-resend-timer-txt {
+  color: #64748b;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+/* Trust & Security Badge Card */
+.officer-trust-card {
+  background: #f0fdf4;
+  background: #f0f9ff;
+  border: 1px solid #e0f2fe;
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.officer-trust-icon {
+  color: #0284c7;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.officer-trust-content {
+  flex: 1;
+}
+
+.officer-trust-title {
+  color: #0369a1;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.officer-trust-desc {
+  color: #075985;
+  font-size: 12px;
+  line-height: 1.35;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Bottom Waves & Dots Decorative Footer */
+.officer-bottom-wave-footer {
+  position: relative;
+  width: calc(100% + 44px);
+  margin-left: -22px;
+  margin-right: -22px;
+  height: 60px;
+  overflow: hidden;
+  margin-top: auto;
+  pointer-events: none;
+  background: #ffffff;
+}
+
+.officer-bottom-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Alerts / Banners */
+.officer-alert-banner {
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.officer-alert-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+}
+
+.officer-alert-success {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #16a34a;
+}
+
+/* ================= LOGIN METHOD TABS ================= */
+.officer-login-method-tabs {
+  display: flex;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 14px;
+  margin-bottom: 16px;
+  gap: 4px;
+}
+
+.officer-method-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 12.5px;
+  font-weight: 750;
+  padding: 9px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.officer-method-tab.active {
+  background: #ffffff;
+  color: #071e3b;
+  box-shadow: 0 2px 8px rgba(7, 30, 59, 0.08);
+}
+
+.officer-method-tab:hover:not(.active) {
+  color: #0f172a;
+}
+
+/* Send OTP Inline Button */
+.officer-send-otp-btn {
+  background: linear-gradient(135deg, #ff7e2a 0%, #ff5200 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(255, 82, 0, 0.25);
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+}
+
+.officer-send-otp-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(255, 82, 0, 0.35);
+}
+
+.officer-send-otp-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ================= POPUP MODAL OVERLAY & CARD ================= */
+.officer-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 21, 41, 0.72);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+  animation: fadeInModal 0.2s ease-out;
+}
+
+@media (min-width: 480px) {
+  .officer-modal-overlay {
+    align-items: center;
+    padding: 16px;
+  }
+}
+
+.officer-modal-card {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  padding: 24px 20px 28px;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.35);
+  animation: slideUpModalCard 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+@media (min-width: 480px) {
+  .officer-modal-card {
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  }
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUpModalCard {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.officer-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.officer-modal-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.officer-modal-title {
+  font-size: 17px;
+  font-weight: 850;
+  color: #071e3b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.25;
+}
+
+.officer-modal-subtitle {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.officer-modal-close-btn {
+  background: #f1f5f9;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.officer-modal-close-btn:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+/* Gender Pills Selector */
+.officer-gender-pills-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.officer-gender-pill {
+  flex: 1;
+  padding: 9px 12px;
+  border: 1.5px solid #e2e8f0;
+  background: #f8fafc;
+  border-radius: 12px;
+  font-size: 12.5px;
+  font-weight: 750;
+  color: #475569;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.18s;
+}
+
+.officer-gender-pill.active {
+  background: #fff7ed;
+  border-color: #ff5200;
+  color: #c2410c;
+  box-shadow: 0 2px 6px rgba(255, 82, 0, 0.15);
+}
+
+/* Role Selector Radio Group */
+.officer-role-select-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.officer-role-option-card {
+  border: 1.5px solid #e2e8f0;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: all 0.18s;
+}
+
+.officer-role-option-card.active {
+  background: #eff6ff;
+  border-color: #2563eb;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.15);
+}
+
+.officer-role-option-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.officer-role-option-card.active .officer-role-option-title {
+  color: #1d4ed8;
+}
+
+.officer-role-option-sub {
+  font-size: 10.5px;
+  color: #64748b;
+}
+
+.officer-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #dcfce7;
+  color: #166534;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+/* Phone Number + OTP Trigger Row */
+.officer-phone-action-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.officer-phone-input-col {
+  flex: 1;
+  min-width: 0;
+}
+
+.officer-otp-trigger-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 16px;
+  min-height: 44px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #ff7a18 0%, #ff5200 100%);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(255, 82, 0, 0.25);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.officer-otp-trigger-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ff8a2e 0%, #ea4900 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(255, 82, 0, 0.35);
+}
+
+.officer-otp-trigger-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+  background: #cbd5e1;
+  color: #64748b;
+  transform: none;
+}
+
+.officer-verified-done-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 14px;
+  min-height: 44px;
+  border-radius: 12px;
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 12.5px;
+  font-weight: 750;
+  border: 1.5px solid #86efac;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.officer-phone-verified-tag {
+  font-size: 11.5px;
+  color: #16a34a;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #f0fdf4;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+

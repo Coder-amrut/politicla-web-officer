@@ -1,0 +1,10 @@
+export { default as DashboardTab } from './dashboardfile';
+export { default as AttendanceTab } from './attendance';
+export { default as AttatdanceTab } from './attatdance';
+export { default as ProfileTab } from './profile';
+export { default as ContactsTab } from './contacts';
+export { default as VotingTab } from './voting';
+export { default as SurveyTab } from './survey';
+export { default as ComplaintsTab } from './complaints';
+export { default as TasksTab } from './tasks';
+export { default as HierarchyTab } from './hierarchy';

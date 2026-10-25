@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Devanagari:wght@300;400;500;600;700;800;900&family=Mukta:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --font-marathi: 'Noto Sans Devanagari', 'Mukta', 'Devanagari', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-english: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-combined: 'Inter', 'Noto Sans Devanagari', 'Mukta', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  font-family: 'Inter', 'Noto Sans Devanagari', 'Mukta', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+[lang='mr'],
+.lang-mr,
+.font-marathi,
+:lang(mr) {
+  font-family: 'Noto Sans Devanagari', 'Mukta', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+[lang='en'],
+.lang-en,
+.font-english,
+:lang(en) {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+code,
+kbd,
+samp,
+pre,
+.font-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, 'SF Mono', monospace;
+}
