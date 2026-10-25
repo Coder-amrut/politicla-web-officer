@@ -250,6 +250,19 @@ Route::prefix('admin')
         Route::post('/change-password', [AdminAdvancedController::class, 'changePassword']);
         Route::post('/forgot-password/request-otp', [AdminAdvancedController::class, 'forgotPasswordRequestOtp']);
         Route::post('/forgot-password/verify-otp', [AdminAdvancedController::class, 'forgotPasswordVerifyOtp']);
+
+        // 9. Roles & Permissions Management
+        Route::get('/roles', [RoleController::class, 'index']);
+        Route::get('/permissions', [RoleController::class, 'permissions']);
+        Route::get('/permissions/{permissionId}/users', [RoleController::class, 'getPermissionUsers']);
+        Route::put('/roles/{roleId}/permissions', [RoleController::class, 'syncPermissions']);
+        Route::post('/roles/{roleId}/permissions/give', [RoleController::class, 'givePermission']);
+        Route::delete('/roles/{roleId}/permissions/{permissionId}', [RoleController::class, 'revokePermission']);
+        Route::get('/users-list', [RoleController::class, 'getUsersList']);
+        Route::get('/users/{userId}/permissions', [RoleController::class, 'getUserPermissions']);
+        Route::put('/users/{userId}/permissions', [RoleController::class, 'syncUserPermissions']);
+        Route::post('/users/{userId}/permissions/give', [RoleController::class, 'giveUserPermission']);
+        Route::delete('/users/{userId}/permissions/{permissionId}', [RoleController::class, 'revokeUserPermission']);
     });
 
 // Public admin forgot password routes

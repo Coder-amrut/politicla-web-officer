@@ -19,10 +19,10 @@ enum ProjectStatus: string
     public function allowedTransitions(): array
     {
         return match ($this) {
-            self::DRAFT     => [self::ACTIVE, self::COMPLETED],
-            self::ACTIVE    => [self::COMPLETED],
-            self::COMPLETED => [self::ARCHIVED, self::ACTIVE],
-            self::ARCHIVED  => [],
+            self::DRAFT     => [self::ACTIVE, self::COMPLETED, self::ARCHIVED],
+            self::ACTIVE    => [self::COMPLETED, self::ARCHIVED, self::DRAFT],
+            self::COMPLETED => [self::ARCHIVED, self::ACTIVE, self::DRAFT],
+            self::ARCHIVED  => [self::ACTIVE, self::DRAFT, self::COMPLETED],
         };
     }
 
