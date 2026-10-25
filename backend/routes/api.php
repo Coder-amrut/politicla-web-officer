@@ -36,7 +36,7 @@ Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:10,1');
 
     // POST /api/auth/login — max 5 attempts per minute per IP
-    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
+    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1')->name('login');
 
     // POST /api/auth/dev-login — Quick developer login without password for rapid testing
     Route::post('/dev-login', [AuthController::class, 'devLogin']);
