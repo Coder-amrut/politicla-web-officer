@@ -126,6 +126,8 @@ class MasterDataController extends Controller
                 'village_name',
                 'village_name as name',
                 'village_name as name_en',
+                'population',
+                'total_voters',
             ])
             ->orderBy('village_name');
 

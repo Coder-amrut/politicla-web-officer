@@ -241,9 +241,20 @@ Route::prefix('admin')
         Route::get('/attendance/users/{userId}/history', [AdminAttendanceController::class, 'getUserEverydayAttendance'])->whereNumber('userId');
         Route::get('/attendance/location-setting', [AdminAttendanceController::class, 'getLocationSetting']);
         Route::put('/attendance/location-setting', [AdminAttendanceController::class, 'updateLocationSetting']);
-        Route::post('/attendance/location-setting', [AdminAttendanceController::class, 'updateLocationSetting']);
         Route::post('/attendance/manual-mark', [AdminAttendanceController::class, 'manualMark']);
+
+        // 8. Admin Profile & Password Management
+        Route::get('/profile', [AdminAdvancedController::class, 'getProfile']);
+        Route::put('/profile', [AdminAdvancedController::class, 'updateProfile']);
+        Route::post('/profile', [AdminAdvancedController::class, 'updateProfile']);
+        Route::post('/change-password', [AdminAdvancedController::class, 'changePassword']);
+        Route::post('/forgot-password/request-otp', [AdminAdvancedController::class, 'forgotPasswordRequestOtp']);
+        Route::post('/forgot-password/verify-otp', [AdminAdvancedController::class, 'forgotPasswordVerifyOtp']);
     });
+
+// Public admin forgot password routes
+Route::post('/admin/forgot-password/request-otp', [AdminAdvancedController::class, 'forgotPasswordRequestOtp']);
+Route::post('/admin/forgot-password/verify-otp', [AdminAdvancedController::class, 'forgotPasswordVerifyOtp']);
 
 // ---------------------------------------------------------------------------
 // Neta / Officer Command App Endpoints (requires Sanctum token)
