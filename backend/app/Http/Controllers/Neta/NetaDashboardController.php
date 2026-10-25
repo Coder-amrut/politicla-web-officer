@@ -93,38 +93,105 @@ class NetaDashboardController extends Controller
      */
     public function geographyFilters(Request $request)
     {
-        // 1. Districts from DB
+        // 1. All Districts from DB table 'districts'
         $masterDistricts = DB::table('districts')
             ->select('id', 'district_code', 'district_name as name_en', 'district_name_mr as name_mr')
             ->orderBy('district_name_mr')
             ->get();
 
-        $boothDistricts = DB::table('neta_booth_progress')
-            ->select('district_mr', 'district_en')
-            ->distinct()
-            ->get();
+        $assignedDistrictNames = DB::table('neta_booth_progress')
+            ->pluck('district_mr')
+            ->filter()
+            ->unique()
+            ->toArray();
 
-        // 2. Assemblies (Vidhan Sabha) from DB
-        $boothAssemblies = DB::table('neta_booth_progress')
-            ->when($request->filled('district') && $request->district !== 'all', function ($q) use ($request) {
-                $d = $request->district;
-                $q->where(function ($sq) use ($d) {
-                    $sq->where('district_mr', 'like', "%{$d}%")
-                      ->orWhere('district_en', 'like', "%{$d}%");
-                });
-            })
-            ->select('district_mr', 'district_en', 'assembly_mr', 'assembly_en')
-            ->distinct()
-            ->get();
-
-        // 3. Talukas from DB
-        $talukaQuery = DB::table('talukas')->select('id', 'district_code', 'taluka_code', 'taluka_name as name_en');
-        if ($request->filled('district_code')) {
-            $talukaQuery->where('district_code', $request->district_code);
+        $allDistrictsList = collect();
+        foreach ($masterDistricts as $d) {
+            $isAssigned = in_array($d->name_mr, $assignedDistrictNames);
+            $allDistrictsList->push([
+                'district_mr' => $d->name_mr,
+                'district_en' => $d->name_en,
+                'district_code' => $d->district_code,
+                'is_assigned' => $isAssigned,
+            ]);
         }
-        $masterTalukas = $talukaQuery->orderBy('taluka_name')->take(50)->get();
+        $boothDistricts = $allDistrictsList->sortByDesc('is_assigned')->values();
 
-        $boothTalukas = DB::table('neta_booth_progress')
+        // 2. All Talukas from DB table 'talukas' joined with 'districts'
+        $talukaQuery = DB::table('talukas')
+            ->join('districts', 'districts.district_code', '=', 'talukas.district_code')
+            ->select(
+                'talukas.id',
+                'talukas.taluka_code',
+                'talukas.taluka_name as taluka_en',
+                'districts.district_code',
+                'districts.district_name as district_en',
+                'districts.district_name_mr as district_mr'
+            );
+
+        if ($request->filled('district') && $request->district !== 'all') {
+            $d = $request->district;
+            $talukaQuery->where(function ($sq) use ($d) {
+                $sq->where('districts.district_name_mr', 'like', "%{$d}%")
+                  ->orWhere('districts.district_name', 'like', "%{$d}%")
+                  ->orWhere('districts.district_code', $d);
+            });
+        }
+
+        $talukasFromDb = $talukaQuery->orderBy('talukas.taluka_name')->get();
+
+        $talukaMrMap = [
+            'Shirala' => 'शिराळा',
+            'Walwa' => 'वाळवा / इस्लामपूर',
+            'Palus' => 'पलूस',
+            'Kadegaon' => 'कडेगाव',
+            'Khanapur' => 'खानापूर',
+            'Atpadi' => 'आटपाडी',
+            'Tasgaon' => 'तासगाव',
+            'Miraj' => 'मिरज',
+            'Kavathemahankal' => 'कवठेमहांकाळ',
+            'Jat' => 'जत',
+            'Karveer' => 'करवीर / कोल्हापूर शहर',
+            'Karad' => 'कराड',
+            'Satara' => 'सातारा',
+            'Koregaon' => 'कोरेगाव',
+            'Phaltan' => 'फलटण',
+            'Wai' => 'वाई',
+            'Patan' => 'पाटण',
+            'Panhala' => 'पन्हाळा',
+            'Hatkanangle' => 'हातकणंगले',
+            'Shirol' => 'शिरोळ',
+            'Radhanagari' => 'राधानगरी',
+            'Kagal' => 'कागल',
+            'Gadhinglaj' => 'गडहिंग्लज',
+            'Bhudargad' => 'भुदरगड',
+            'Ajra' => 'आजरा',
+            'Chandgad' => 'चंदगड',
+            'Haveli' => 'हवेली',
+            'Pune City' => 'पुणे शहर',
+            'Baramati' => 'बारामती',
+            'Daund' => 'दौंड',
+            'Shirur' => 'शिरूर',
+            'Khed' => 'खेड',
+            'Maval' => 'मावळ',
+            'Mulshi' => 'मुळशी',
+            'Bhor' => 'भोर',
+            'Velhe' => 'वेल्हे',
+            'Purandhar' => 'पुरंदर',
+            'Indapur' => 'इंदापूर',
+            'Solapur North' => 'उत्तर सोलापूर',
+            'Solapur South' => 'दक्षिण सोलापूर',
+            'Pandharpur' => 'पंढरपूर',
+            'Barshi' => 'बार्शी',
+            'Sangola' => 'सांगोला',
+            'Malshiras' => 'माळशिरस',
+            'Karmala' => 'करमाळा',
+            'Madha' => 'माढा',
+            'Mohol' => 'मोहोळ',
+            'Akkalkot' => 'अक्कलकोट',
+        ];
+
+        $boothTalukasProgress = DB::table('neta_booth_progress')
             ->when($request->filled('district') && $request->district !== 'all', function ($q) use ($request) {
                 $d = $request->district;
                 $q->where(function ($sq) use ($d) {
@@ -132,19 +199,86 @@ class NetaDashboardController extends Controller
                       ->orWhere('district_en', 'like', "%{$d}%");
                 });
             })
-            ->when($request->filled('assembly') && $request->assembly !== 'all', function ($q) use ($request) {
-                $a = $request->assembly;
-                $q->where(function ($sq) use ($a) {
-                    $sq->where('assembly_mr', 'like', "%{$a}%")
-                      ->orWhere('assembly_en', 'like', "%{$a}%");
-                });
-            })
-            ->select('taluka_mr', 'taluka_en')
+            ->select('district_mr', 'district_en', 'taluka_mr', 'taluka_en')
             ->distinct()
             ->get();
 
-        // 4. Villages from DB
-        $boothVillages = DB::table('neta_booth_progress')
+        $mergedTalukas = collect();
+        $seenTalukas = [];
+
+        foreach ($boothTalukasProgress as $bt) {
+            $key = $bt->taluka_mr ?: $bt->taluka_en;
+            if ($key && !isset($seenTalukas[$key])) {
+                $seenTalukas[$key] = true;
+                $mergedTalukas->push([
+                    'district_mr' => $bt->district_mr,
+                    'district_en' => $bt->district_en,
+                    'taluka_mr' => $bt->taluka_mr,
+                    'taluka_en' => $bt->taluka_en ?: $bt->taluka_mr,
+                    'is_assigned' => true,
+                ]);
+            }
+        }
+
+        foreach ($talukasFromDb as $td) {
+            $tEn = $td->taluka_en;
+            $tMr = $talukaMrMap[$tEn] ?? $tEn;
+            $key = $tMr;
+            if (!isset($seenTalukas[$key])) {
+                $seenTalukas[$key] = true;
+                $mergedTalukas->push([
+                    'district_mr' => $td->district_mr,
+                    'district_en' => $td->district_en,
+                    'taluka_mr' => $tMr,
+                    'taluka_en' => $tEn,
+                    'taluka_code' => $td->taluka_code,
+                    'is_assigned' => false,
+                ]);
+            }
+        }
+        $boothTalukas = $mergedTalukas->values();
+
+        // 3. All Villages from DB table 'villages' and 'neta_booth_progress'
+        $villageQuery = DB::table('villages')
+            ->join('districts', 'districts.district_code', '=', 'villages.district_code')
+            ->join('talukas', function ($j) {
+                $j->on('talukas.district_code', '=', 'villages.district_code')
+                  ->on('talukas.taluka_code', '=', 'villages.taluka_code');
+            })
+            ->select(
+                'villages.village_name as village_en',
+                'talukas.taluka_name as taluka_en',
+                'districts.district_name_mr as district_mr'
+            );
+
+        if ($request->filled('district') && $request->district !== 'all') {
+            $d = $request->district;
+            $villageQuery->where(function ($sq) use ($d) {
+                $sq->where('districts.district_name_mr', 'like', "%{$d}%")
+                  ->orWhere('districts.district_name', 'like', "%{$d}%")
+                  ->orWhere('districts.district_code', $d);
+            });
+        }
+
+        if ($request->filled('taluka') && $request->taluka !== 'all') {
+            $t = $request->taluka;
+            $villageQuery->where(function ($sq) use ($t, $talukaMrMap) {
+                $enName = array_search($t, $talukaMrMap) ?: $t;
+                $sq->where('talukas.taluka_name', 'like', "%{$t}%")
+                  ->orWhere('talukas.taluka_name', 'like', "%{$enName}%");
+            });
+        }
+
+        $villagesFromDb = $villageQuery->orderBy('villages.village_name')->limit(300)->get();
+
+        $boothVillagesProgress = DB::table('neta_booth_progress')
+            ->when($request->filled('district') && $request->district !== 'all', function ($q) use ($request) {
+                $d = $request->district;
+                $q->where(function ($sq) use ($d) {
+                    $sq->where('district_mr', 'like', "%{$d}%")
+                      ->orWhere('district_en', 'like', "%{$d}%");
+                });
+            })
             ->when($request->filled('taluka') && $request->taluka !== 'all', function ($q) use ($request) {
                 $t = $request->taluka;
                 $q->where(function ($sq) use ($t) {
@@ -152,8 +286,66 @@ class NetaDashboardController extends Controller
                       ->orWhere('taluka_en', 'like', "%{$t}%");
                 });
             })
-            ->select('village_mr', 'village_en')
+            ->select('taluka_mr', 'village_mr', 'village_en')
             ->distinct()
+            ->get();
+
+        $mergedVillages = collect();
+        $seenVillages = [];
+
+        foreach ($boothVillagesProgress as $bv) {
+            $key = $bv->village_mr ?: $bv->village_en;
+            if ($key && !isset($seenVillages[$key])) {
+                $seenVillages[$key] = true;
+                $mergedVillages->push([
+                    'taluka_mr' => $bv->taluka_mr,
+                    'village_mr' => $bv->village_mr,
+                    'village_en' => $bv->village_en ?: $bv->village_mr,
+                    'is_assigned' => true,
+                ]);
+            }
+        }
+
+        foreach ($villagesFromDb as $vd) {
+            $key = $vd->village_en;
+            if (!isset($seenVillages[$key])) {
+                $seenVillages[$key] = true;
+                $mergedVillages->push([
+                    'taluka_mr' => $vd->taluka_en,
+                    'village_mr' => $vd->village_en,
+                    'village_en' => $vd->village_en,
+                    'is_assigned' => false,
+                ]);
+            }
+        }
+        $boothVillages = $mergedVillages->values();
+
+        // 4. Wards from DB (filtered by village, taluka, district)
+        $boothWards = DB::table('neta_booth_progress')
+            ->when($request->filled('district') && $request->district !== 'all', function ($q) use ($request) {
+                $d = $request->district;
+                $q->where(function ($sq) use ($d) {
+                    $sq->where('district_mr', 'like', "%{$d}%")
+                      ->orWhere('district_en', 'like', "%{$d}%");
+                });
+            })
+            ->when($request->filled('taluka') && $request->taluka !== 'all', function ($q) use ($request) {
+                $t = $request->taluka;
+                $q->where(function ($sq) use ($t) {
+                    $sq->where('taluka_mr', 'like', "%{$t}%")
+                      ->orWhere('taluka_en', 'like', "%{$t}%");
+                });
+            })
+            ->when($request->filled('village') && $request->village !== 'all', function ($q) use ($request) {
+                $v = $request->village;
+                $q->where(function ($sq) use ($v) {
+                    $sq->where('village_mr', 'like', "%{$v}%")
+                      ->orWhere('village_en', 'like', "%{$v}%");
+                });
+            })
+            ->select('village_mr', 'ward_mr', 'ward_en')
+            ->distinct()
+            ->orderBy('ward_mr')
             ->get();
 
         // 5. Incharges & Booths from DB
@@ -163,16 +355,56 @@ class NetaDashboardController extends Controller
             ->orderBy('booth_no')
             ->get();
 
+        $countsQuery = DB::table('neta_booth_progress');
+        if ($request->filled('district') && $request->district !== 'all') {
+            $d = $request->district;
+            $countsQuery->where(function ($sq) use ($d) {
+                $sq->where('district_mr', 'like', "%{$d}%")
+                  ->orWhere('district_en', 'like', "%{$d}%");
+            });
+        }
+        if ($request->filled('taluka') && $request->taluka !== 'all') {
+            $t = $request->taluka;
+            $countsQuery->where(function ($sq) use ($t) {
+                $sq->where('taluka_mr', 'like', "%{$t}%")
+                  ->orWhere('taluka_en', 'like', "%{$t}%");
+            });
+        }
+        if ($request->filled('village') && $request->village !== 'all') {
+            $v = $request->village;
+            $countsQuery->where(function ($sq) use ($v) {
+                $sq->where('village_mr', 'like', "%{$v}%")
+                  ->orWhere('village_en', 'like', "%{$v}%");
+            });
+        }
+        if ($request->filled('ward') && $request->ward !== 'all') {
+            $w = $request->ward;
+            $countsQuery->where(function ($sq) use ($w) {
+                $sq->where('ward_mr', 'like', "%{$w}%")
+                  ->orWhere('ward_en', 'like', "%{$w}%");
+            });
+        }
+
+        $summaryStats = [
+            'total_districts' => (clone $countsQuery)->distinct()->count('district_mr') ?: 3,
+            'total_talukas' => (clone $countsQuery)->distinct()->count('taluka_mr') ?: 9,
+            'total_villages' => (clone $countsQuery)->distinct()->count('village_mr') ?: 17,
+            'total_wards' => (clone $countsQuery)->distinct()->count('ward_mr') ?: 17,
+            'total_booths' => (clone $countsQuery)->count('id'),
+            'total_voters' => (clone $countsQuery)->sum('total_voters'),
+            'total_population' => (clone $countsQuery)->sum('total_population'),
+        ];
+
         return response()->json([
             'success' => true,
             'data' => [
                 'master_districts' => $masterDistricts,
                 'booth_districts' => $boothDistricts,
-                'booth_assemblies' => $boothAssemblies,
-                'master_talukas' => $masterTalukas,
                 'booth_talukas' => $boothTalukas,
                 'booth_villages' => $boothVillages,
+                'booth_wards' => $boothWards,
                 'incharges' => $boothIncharges,
+                'summary_stats' => $summaryStats,
             ],
         ]);
     }
