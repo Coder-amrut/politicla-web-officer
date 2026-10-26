@@ -213,6 +213,7 @@ Route::prefix('admin')
 
         // 2. Database Backup & Restore
         Route::get('/system/backups', [AdminAdvancedController::class, 'getBackups']);
+        Route::get('/system/backups/full-pdf-export', [AdminAdvancedController::class, 'getFullDbExportForPdf']);
         Route::post('/system/backups', [AdminAdvancedController::class, 'createBackup']);
         Route::get('/system/backups/{id}/download', [AdminAdvancedController::class, 'downloadBackup'])->whereNumber('id');
         Route::post('/system/restore', [AdminAdvancedController::class, 'restoreBackup']);

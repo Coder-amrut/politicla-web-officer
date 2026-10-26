@@ -342,6 +342,42 @@ class AdminAdvancedController extends Controller
         ]);
     }
 
+    public function getFullDbExportForPdf()
+    {
+        $schema = DB::getSchemaBuilder();
+        $data = [
+            'metadata' => [
+                'system_name' => 'महाराष्ट्र निवडणूक व राजकीय व्यवस्थापन प्रणाली (Central DB Engine)',
+                'export_time' => now()->toIso8601String(),
+                'export_time_human' => now()->format('d/m/Y h:i A'),
+            ],
+            'projects' => $schema->hasTable('projects') ? DB::table('projects')->select('id', 'name', 'category', 'election_level', 'state_name', 'district_name', 'taluka_name', 'status', 'start_date', 'end_date')->orderBy('id', 'desc')->get() : [],
+            'users' => $schema->hasTable('users') ? DB::table('users as u')
+                ->leftJoin('user_roles as ur', 'u.id', '=', 'ur.user_id')
+                ->leftJoin('roles as r', 'ur.role_id', '=', 'r.id')
+                ->select('u.id', 'u.full_name', 'u.phone', 'u.email', 'u.status', 'u.registration_source', 'u.created_at', DB::raw('GROUP_CONCAT(r.name) as roles'))
+                ->groupBy('u.id', 'u.full_name', 'u.phone', 'u.email', 'u.status', 'u.registration_source', 'u.created_at')
+                ->get() : [],
+            'citizens' => $schema->hasTable('neta_citizens') ? DB::table('neta_citizens')->select('id', 'full_name_mr', 'phone', 'booth_no', 'voter_id_no', 'ward_village', 'category', 'status')->limit(200)->get() : [],
+            'booths' => $schema->hasTable('neta_booth_progress') ? DB::table('neta_booth_progress')->select('id', 'booth_no', 'booth_name', 'total_voters', 'contacted_voters', 'party_worker_name', 'lead_status')->get() : [],
+            'workers' => $schema->hasTable('neta_karyakartas') ? DB::table('neta_karyakartas')->select('id', 'full_name', 'role', 'phone', 'booth_allocated', 'assigned_voters_count', 'performance_rating')->get() : [],
+            'surveys' => $schema->hasTable('admin_field_submissions') ? DB::table('admin_field_submissions')->select('id', 'submission_code', 'citizen_name_mr', 'voter_id_number', 'phone', 'booth_no', 'village_mr', 'status', 'created_at')->limit(200)->get() : [],
+            'issues' => $schema->hasTable('neta_crm_issues') ? DB::table('neta_crm_issues as i')
+                ->leftJoin('neta_citizens as c', 'i.citizen_id', '=', 'c.id')
+                ->select('i.id', 'i.title', 'i.category', 'i.severity', 'i.status', 'c.full_name_mr as citizen_name', 'c.phone as citizen_phone', 'i.created_at')
+                ->get() : [],
+            'tasks' => $schema->hasTable('neta_pending_tasks') ? DB::table('neta_pending_tasks')->select('id', 'title', 'category', 'priority', 'status', 'assigned_to_name', 'due_date')->get() : [],
+            'meetings' => $schema->hasTable('neta_meetings_tours') ? DB::table('neta_meetings_tours')->select('id', 'title', 'location', 'event_type', 'event_date', 'attendees_count', 'status')->get() : [],
+            'elections' => $schema->hasTable('karkarta_evm_elections') ? DB::table('karkarta_evm_elections')->select('id', 'name', 'status', 'total_votes', 'end_time', 'created_at')->get() : [],
+            'backups' => $schema->hasTable('admin_system_backups') ? DB::table('admin_system_backups')->select('id', 'filename', 'backup_type', 'file_size_formatted', 'created_by_name', 'created_at')->orderBy('id', 'desc')->get() : [],
+        ];
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+        ]);
+    }
+
     // =========================================================================
     // 3. DUPLICATE DATA DETECTION (ड्युप्लिकेट मतदार व डेटा डिटेक्शन)
     // =========================================================================
