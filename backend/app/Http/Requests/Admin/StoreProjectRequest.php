@@ -48,6 +48,18 @@ class StoreProjectRequest extends FormRequest
             'geographic_context.polling_stations.*.district_code' => ['nullable'],
             'geographic_context.polling_stations.*.part_no' => ['nullable'],
             'geographic_context.polling_stations.*.election_year' => ['nullable', 'integer', 'min:1900', 'max:2200'],
+            'candidates' => ['nullable', 'array'],
+            'candidates.*.candidate_name' => ['nullable', 'string', 'max:250'],
+            'candidates.*.party_name' => ['nullable', 'string', 'max:250'],
+            'candidates.*.party_symbol' => ['nullable', 'string'],
+            'candidates.*.candidate_photo' => ['nullable', 'string'],
+            'candidates.*.serial_number' => ['nullable'],
+            'candidates.*.position' => ['nullable', 'string', 'max:250'],
+            'candidates.*.contact_phone' => ['nullable', 'string', 'max:50'],
+            'candidates.*.ward_village' => ['nullable', 'string', 'max:250'],
+            'candidates.*.voice_message' => ['nullable', 'string'],
+            'candidates.*.highlighted' => ['nullable'],
+            'geographic_context.candidates' => ['nullable', 'array'],
         ];
     }
 

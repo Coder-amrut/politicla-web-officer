@@ -73,6 +73,12 @@ class ProjectController extends Controller
 
         \DB::beginTransaction();
         try {
+            $geoContext = $validated['geographic_context'] ?? [];
+            $candidates = $validated['candidates'] ?? ($geoContext['candidates'] ?? []);
+            if (!empty($candidates)) {
+                $geoContext['candidates'] = $candidates;
+            }
+
             $project = Project::create([
                 'uuid'         => (string) Str::uuid(),
                 'name'         => $validated['name'],
@@ -88,8 +94,38 @@ class ProjectController extends Controller
                 'geographic_code' => $validated['geographic_code'] ?? null,
                 'geographic_name_en' => $validated['geographic_name_en'] ?? null,
                 'geographic_name_mr' => $validated['geographic_name_mr'] ?? null,
-                'geographic_context' => $validated['geographic_context'] ?? null,
+                'geographic_context' => $geoContext,
             ]);
+
+            // If candidates are supplied, sync into EVM voting tables for this election
+            if (!empty($candidates) && \Schema::hasTable('karkarta_evm_candidates')) {
+                $electionId = 1;
+                if (\Schema::hasTable('karkarta_evm_elections')) {
+                    $electionId = \DB::table('karkarta_evm_elections')->insertGetId([
+                        'name' => $project->name,
+                        'status' => 'ACTIVE',
+                        'date_time' => ($project->start_date ? 'दिनांक: ' . $project->start_date : 'मतदान तारीख लवकरच जाहीर होईल'),
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+                foreach ($candidates as $idx => $cand) {
+                    if (empty($cand['candidate_name'])) continue;
+                    \DB::table('karkarta_evm_candidates')->insert([
+                        'election_id' => $electionId,
+                        'serial_number' => $cand['serial_number'] ?? ($idx + 1),
+                        'candidate_name' => $cand['candidate_name'],
+                        'party_name' => $cand['party_name'] ?? 'अपक्ष',
+                        'candidate_photo' => $cand['candidate_photo'] ?? null,
+                        'party_symbol' => $cand['party_symbol'] ?? null,
+                        'position' => $cand['position'] ?? ($project->project_type ?: 'उमेदवार'),
+                        'highlighted' => !empty($cand['highlighted']),
+                        'voice_message' => $cand['voice_message'] ?? null,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
 
             AuditService::log(
                 action:     'PROJECT_CREATED',
@@ -106,6 +142,7 @@ class ProjectController extends Controller
                     'geographic_name_en' => $project->geographic_name_en,
                     'geographic_name_mr' => $project->geographic_name_mr,
                     'geographic_context' => $project->geographic_context,
+                    'candidates_count'   => count($candidates),
                 ],
                 request:    $request,
             );
