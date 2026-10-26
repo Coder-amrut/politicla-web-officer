@@ -97,25 +97,14 @@ export default function ProfileTab({
               </button>
             </>
           ) : (
-            <>
-              <button
-                type="button"
-                className="karyakarta-btn karyakarta-btn-primary"
-                onClick={() => setIsEditingProfile(true)}
-              >
-                <Edit2 size={15} />
-                <span>{t('editProfile')}</span>
-              </button>
-              <button
-                type="button"
-                className="karyakarta-btn karyakarta-btn-outline"
-                onClick={() => window.print()}
-                title={isMr ? 'ओळखपत्र प्रिंट करा' : 'Print ID Card'}
-              >
-                <span>🖨️</span>
-                <span>{isMr ? 'प्रिंट / डाउनलोड' : 'Print ID'}</span>
-              </button>
-            </>
+            <button
+              type="button"
+              className="karyakarta-btn karyakarta-btn-primary"
+              onClick={() => setIsEditingProfile(true)}
+            >
+              <Edit2 size={15} />
+              <span>{t('editProfile')}</span>
+            </button>
           )}
         </div>
       </div>
