@@ -184,6 +184,8 @@ class MasterDataController extends Controller
             'taluka_code'    => ['nullable', 'string', 'max:20'],
             'taluka_codes'   => ['nullable'],
             'search'         => ['nullable', 'string', 'max:100'],
+            'type'           => ['nullable', 'string', 'max:20'],
+            'types'          => ['nullable'],
         ]);
 
         $query = DB::table('local_bodies')
@@ -199,6 +201,14 @@ class MasterDataController extends Controller
                 'local_body_type',
             ])
             ->orderBy('local_body_name');
+
+        if ($request->filled('type')) {
+            $query->where('local_body_type', $request->input('type'));
+        } elseif ($request->filled('types')) {
+            $typesVal = $request->input('types');
+            $types = is_array($typesVal) ? $typesVal : explode(',', (string) $typesVal);
+            $query->whereIn('local_body_type', array_filter($types));
+        }
 
         $districtCodes = collect();
         if ($request->filled('district_code')) {
