@@ -21,10 +21,17 @@ class MasterDataController extends Controller
      */
     public function states(Request $request): JsonResponse
     {
-        return $this->paginated(
-            $request,
-            DB::table('states')->orderBy('state_code'),
-        );
+        $query = DB::table('states')->orderBy('state_code');
+
+        if ($request->filled('search')) {
+            $term = trim((string) $request->input('search'));
+            $query->where(function ($builder) use ($term) {
+                $builder->where('state_name', 'like', "%{$term}%")
+                    ->orWhere('state_code', 'like', "%{$term}%");
+            });
+        }
+
+        return $this->paginated($request, $query);
     }
 
     /**
