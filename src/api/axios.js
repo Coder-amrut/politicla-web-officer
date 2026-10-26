@@ -6,7 +6,7 @@ import { getToken, removeToken } from '../utils/tokenStorage';
  * Uses Sanctum Bearer token authentication.
  */
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://payday-gtk-explanation-assurance.trycloudflare.com/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://sat-pose-requirements-deposit.trycloudflare.com/api',
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
