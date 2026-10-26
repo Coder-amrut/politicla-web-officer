@@ -619,4 +619,164 @@ class ProjectGeographyLookupController extends Controller
 
         return response()->json(['data' => $districts]);
     }
+
+    public const LOCAL_AUTHORITIES_CONSTITUENCIES = [
+        [
+            'code' => 'LOC_SANGLI_SATARA',
+            'name_en' => 'Sangli-Satara Local Authorities Constituency',
+            'name_mr' => 'सांगली-सातारा स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['493', '494'],
+        ],
+        [
+            'code' => 'LOC_KOLHAPUR',
+            'name_en' => 'Kolhapur Local Authorities Constituency',
+            'name_mr' => 'कोल्हापूर स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['480'],
+        ],
+        [
+            'code' => 'LOC_PUNE',
+            'name_en' => 'Pune Local Authorities Constituency',
+            'name_mr' => 'पुणे स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['490'],
+        ],
+        [
+            'code' => 'LOC_SOLAPUR',
+            'name_en' => 'Solapur Local Authorities Constituency',
+            'name_mr' => 'सोलापूर स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['496'],
+        ],
+        [
+            'code' => 'LOC_MUMBAI',
+            'name_en' => 'Mumbai Local Authorities Constituency (2 Seats)',
+            'name_mr' => 'मुंबई स्थानिक प्राधिकारी मतदारसंघ (२ जागा)',
+            'district_codes' => ['482', '483'],
+        ],
+        [
+            'code' => 'LOC_THANE_PALGHAR',
+            'name_en' => 'Thane-Palghar Local Authorities Constituency',
+            'name_mr' => 'ठाणे-पालघर स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['497', '665'],
+        ],
+        [
+            'code' => 'LOC_RAIGAD_RATNAGIRI_SINDHUDURG',
+            'name_en' => 'Konkan (Raigad-Ratnagiri-Sindhudurg) Local Authorities Constituency',
+            'name_mr' => 'कोकण (रायगड-रत्नागिरी-सिंधुदुर्ग) स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['491', '492', '495'],
+        ],
+        [
+            'code' => 'LOC_NASHIK',
+            'name_en' => 'Nashik Local Authorities Constituency',
+            'name_mr' => 'नाशिक स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['487'],
+        ],
+        [
+            'code' => 'LOC_DHULE_NANDURBAR',
+            'name_en' => 'Dhule-Nandurbar Local Authorities Constituency',
+            'name_mr' => 'धुळे-नंदुरबार स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['474', '486'],
+        ],
+        [
+            'code' => 'LOC_JALGAON',
+            'name_en' => 'Jalgaon Local Authorities Constituency',
+            'name_mr' => 'जळगाव स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['478'],
+        ],
+        [
+            'code' => 'LOC_AHMEDNAGAR',
+            'name_en' => 'Ahilyanagar (Ahmednagar) Local Authorities Constituency',
+            'name_mr' => 'अहिल्यानगर (अहमदनगर) स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['466'],
+        ],
+        [
+            'code' => 'LOC_AURANGABAD_JALNA',
+            'name_en' => 'Chhatrapati Sambhajinagar-Jalna Local Authorities Constituency',
+            'name_mr' => 'छत्रपती संभाजीनगर-जालना स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['469', '479'],
+        ],
+        [
+            'code' => 'LOC_BEED_OSMANABAD_LATUR',
+            'name_en' => 'Beed-Dharashiv-Latur Local Authorities Constituency',
+            'name_mr' => 'बीड-धाराशिव-लातूर स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['470', '489', '481'],
+        ],
+        [
+            'code' => 'LOC_NANDED',
+            'name_en' => 'Nanded Local Authorities Constituency',
+            'name_mr' => 'नांदेड स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['485'],
+        ],
+        [
+            'code' => 'LOC_PARBHANI_HINGOLI',
+            'name_en' => 'Parbhani-Hingoli Local Authorities Constituency',
+            'name_mr' => 'परभणी-हिंगोली स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['488', '477'],
+        ],
+        [
+            'code' => 'LOC_AMRAVATI',
+            'name_en' => 'Amravati Local Authorities Constituency',
+            'name_mr' => 'अमरावती स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['468'],
+        ],
+        [
+            'code' => 'LOC_AKOLA_WASHIM_BULDHANA',
+            'name_en' => 'Akola-Washim-Buldhana Local Authorities Constituency',
+            'name_mr' => 'अकोला-वाशिम-बुलढाणा स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['467', '499', '472'],
+        ],
+        [
+            'code' => 'LOC_YAVATMAL',
+            'name_en' => 'Yavatmal Local Authorities Constituency',
+            'name_mr' => 'यवतमाळ स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['500'],
+        ],
+        [
+            'code' => 'LOC_NAGPUR',
+            'name_en' => 'Nagpur Local Authorities Constituency',
+            'name_mr' => 'नागपूर स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['484'],
+        ],
+        [
+            'code' => 'LOC_WARDHA_CHANDRAPUR_GADCHIROLI',
+            'name_en' => 'Wardha-Chandrapur-Gadchiroli Local Authorities Constituency',
+            'name_mr' => 'वर्धा-चंद्रपूर-गडचिरोली स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['498', '473', '476'],
+        ],
+        [
+            'code' => 'LOC_BHANDARA_GONDIA',
+            'name_en' => 'Bhandara-Gondia Local Authorities Constituency',
+            'name_mr' => 'भंडारा-गोंदिया स्थानिक प्राधिकारी मतदारसंघ',
+            'district_codes' => ['471', '475'],
+        ],
+    ];
+
+    public function localAuthoritiesConstituencies(Request $request): JsonResponse
+    {
+        $term = mb_strtolower($request->query('search', ''));
+        $items = collect(self::LOCAL_AUTHORITIES_CONSTITUENCIES);
+        if ($term !== '') {
+            $items = $items->filter(fn ($c) =>
+                str_contains(mb_strtolower($c['name_en']), $term) ||
+                str_contains(mb_strtolower($c['name_mr']), $term) ||
+                str_contains(mb_strtolower($c['code']), $term)
+            );
+        }
+        return response()->json(['data' => $items->values()->all()]);
+    }
+
+    public function districtsForLocalAuthoritiesConstituency(string $code): JsonResponse
+    {
+        $matched = collect(self::LOCAL_AUTHORITIES_CONSTITUENCIES)->firstWhere('code', $code);
+        if (! $matched) {
+            return response()->json(['data' => []]);
+        }
+
+        $districts = DB::table('districts')
+            ->whereIn('district_code', $matched['district_codes'])
+            ->select(['district_code as code', 'district_name as name_en', 'district_name_mr as name_mr'])
+            ->orderBy('district_name')
+            ->get();
+
+        return response()->json(['data' => $districts]);
+    }
 }
+

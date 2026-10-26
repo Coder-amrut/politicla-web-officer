@@ -123,6 +123,8 @@ Route::prefix('admin')
         Route::get('/project-geography/graduate-constituencies/{code}/districts', [ProjectGeographyLookupController::class, 'districtsForGraduateConstituency']);
         Route::get('/project-geography/teacher-constituencies', [ProjectGeographyLookupController::class, 'teacherConstituencies']);
         Route::get('/project-geography/teacher-constituencies/{code}/districts', [ProjectGeographyLookupController::class, 'districtsForTeacherConstituency']);
+        Route::get('/project-geography/local-authorities', [ProjectGeographyLookupController::class, 'localAuthoritiesConstituencies']);
+        Route::get('/project-geography/local-authorities/{code}/districts', [ProjectGeographyLookupController::class, 'districtsForLocalAuthoritiesConstituency']);
         Route::get('/project-geography/polling-stations', [ProjectGeographyLookupController::class, 'pollingStations']);
 
         // ---------------------------------------------------------------------------

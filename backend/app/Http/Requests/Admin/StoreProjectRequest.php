@@ -22,7 +22,7 @@ class StoreProjectRequest extends FormRequest
             'status'       => ['nullable', new Enum(ProjectStatus::class)],
             'start_date'   => ['nullable', 'date'],
             'end_date'     => ['nullable', 'date', 'after_or_equal:start_date'],
-            'geographic_scope' => ['sometimes', 'nullable', 'string', 'in:DISTRICT,LOK_SABHA,ASSEMBLY,POLLING_STATION,GRADUATE_CONSTITUENCY,TEACHER_CONSTITUENCY,GENERAL'],
+            'geographic_scope' => ['sometimes', 'nullable', 'string', 'in:DISTRICT,LOK_SABHA,ASSEMBLY,POLLING_STATION,GRADUATE_CONSTITUENCY,TEACHER_CONSTITUENCY,LOCAL_AUTHORITIES,MLA_QUOTA,PRESIDENTIAL,VICE_PRESIDENTIAL,RAJYA_SABHA,MUNICIPAL_CORPORATION,MUNICIPAL_COUNCIL,ZILLA_PARISHAD,PANCHAYAT_SAMITI,GRAM_PANCHAYAT,GENERAL'],
             'geographic_code' => ['nullable', 'string', 'max:5000'],
             'geographic_name_en' => ['nullable', 'string', 'max:5000'],
             'geographic_name_mr' => ['nullable', 'string', 'max:5000'],
